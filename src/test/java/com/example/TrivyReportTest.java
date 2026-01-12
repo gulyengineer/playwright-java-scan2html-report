@@ -41,7 +41,6 @@ public class TrivyReportTest {
         // 1. Page Title Validation
         assertThat(page).hasTitle("Trivy Report");
         // 2. Side Menu Validation
-        // Based on the HTML, the sidebar uses .ant-menu-item classes
         List<String> expectedMenus = Arrays.asList("Vulnerabilities", "Misconfigurations", "Secrets", "Licenses", "Misconfiguration Summary", "K8s Cluster Summary", "Supply Chain SBOM(spdx)", "Load a report");
         for (String menuText : expectedMenus) {
             // Using filter to ensure we match the specific text within the menu items
@@ -79,6 +78,14 @@ public class TrivyReportTest {
         assertThat(page.locator(".ant-table-thead")).containsText("Severity");
         assertThat(page.locator(".ant-table-thead")).containsText("Target");
         assertThat(page.locator(".ant-table-thead")).containsText("Library/Package");
+        assertThat(page.locator(".ant-table-thead")).containsText("NVD V2Score");
+        assertThat(page.locator(".ant-table-thead")).containsText("NVD V3Score");
+        assertThat(page.locator(".ant-table-thead")).containsText("EPSS Score");
+        assertThat(page.locator(".ant-table-thead")).containsText("Exploits");
+        assertThat(page.locator(".ant-table-thead")).containsText("Installed Version");
+        assertThat(page.locator(".ant-table-thead")).containsText("Vulnerability");
+        assertThat(page.locator(".ant-table-thead")).containsText("Fixed Version");
+        assertThat(page.locator(".ant-table-thead")).containsText("Title");
     }
 
     @AfterEach
