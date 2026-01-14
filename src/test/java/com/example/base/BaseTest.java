@@ -17,7 +17,7 @@ public class BaseTest {
 
         context = browser.newContext();
         page = context.newPage();
-        page.navigate(ConfigReader.get("TEST_URL"));
+        page.navigate(ConfigReader.get("TEST_REPORT_URL"));
     }
 
     @AfterEach
