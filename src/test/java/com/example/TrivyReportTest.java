@@ -30,8 +30,8 @@ public class TrivyReportTest {
         page = context.newPage();
 
         String targetUrl = System.getenv("TEST_REPORT_URL");
-        if (targetUrl == null) {
-            System.out.println("Trivy Report test URL is not set in Environment Variables!");
+        if (targetUrl == null || targetUrl.isBlank()) {
+            Assertions.fail("TEST_REPORT_URL env variable must be set and not blank");
         }
 
         page.navigate(targetUrl);
