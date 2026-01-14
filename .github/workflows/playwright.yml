@@ -3,6 +3,7 @@ on: [push]
 
 jobs:
   test:
+    name: Run Tests
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -34,5 +35,4 @@ jobs:
             github_token: ${{ secrets.GITHUB_TOKEN }}
             report_paths: '**/target/surefire-reports/TEST-*.xml'
             include_passed: true
-            detailed_summary: true
 
