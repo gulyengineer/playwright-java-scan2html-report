@@ -1,6 +1,7 @@
 package com.example;
 
 import com.microsoft.playwright.*;
+import com.microsoft.playwright.assertions.LocatorAssertions;
 import com.microsoft.playwright.options.AriaRole;
 import org.junit.jupiter.api.*;
 
@@ -30,9 +31,7 @@ public class TrivyReportTest {
         context = browser.newContext();
         page = context.newPage();
         // Updated path to your specific file
-        String path = Paths.get("C:\\Users\\dell\\IdeaProjects\\playwright-java-scan2html-report\\TrivyReport.html")
-                .toUri()
-                .toString();
+        String path = Paths.get("C:\\Users\\dell\\IdeaProjects\\playwright-java-scan2html-report\\TrivyReport.html").toUri().toString();
         page.navigate(path);
     }
 
@@ -44,8 +43,7 @@ public class TrivyReportTest {
         List<String> expectedMenus = Arrays.asList("Vulnerabilities", "Misconfigurations", "Secrets", "Licenses", "Misconfiguration Summary", "K8s Cluster Summary", "Supply Chain SBOM(spdx)", "Load a report");
         for (String menuText : expectedMenus) {
             // Using filter to ensure we match the specific text within the menu items
-            assertThat(page.locator(".ant-menu-item").filter(new Locator.FilterOptions().setHasText(menuText)))
-                    .isVisible();
+            assertThat(page.locator(".ant-menu-item").filter(new Locator.FilterOptions().setHasText(menuText))).isVisible();
         }
 
         // 3. Light/Dark Theme Switch
@@ -75,17 +73,13 @@ public class TrivyReportTest {
         assertThat(vulsTable).isVisible();
 
         // Verify that data columns like 'Severity' , "Target" or 'Library/Package' exist in the header
-        assertThat(page.locator(".ant-table-thead")).containsText("Severity");
-        assertThat(page.locator(".ant-table-thead")).containsText("Target");
-        assertThat(page.locator(".ant-table-thead")).containsText("Library/Package");
-        assertThat(page.locator(".ant-table-thead")).containsText("NVD V2Score");
-        assertThat(page.locator(".ant-table-thead")).containsText("NVD V3Score");
-        assertThat(page.locator(".ant-table-thead")).containsText("EPSS Score");
-        assertThat(page.locator(".ant-table-thead")).containsText("Exploits");
-        assertThat(page.locator(".ant-table-thead")).containsText("Installed Version");
-        assertThat(page.locator(".ant-table-thead")).containsText("Vulnerability");
-        assertThat(page.locator(".ant-table-thead")).containsText("Fixed Version");
-        assertThat(page.locator(".ant-table-thead")).containsText("Title");
+        Locator tableHeaders = page.locator(".ant-table-thead th");
+
+        List<String> expectedHeaders = Arrays.asList(
+                "Target", "Library/Package", "Vulnerability", "NVD V2Score", "NVD V3Score", "EPSS Score %",
+                "Severity", "Exploits", "Installed Version", "Fixed Version", "Title"
+        );
+        assertThat(tableHeaders).hasText(expectedHeaders.toArray(new String[0]));
     }
 
     @AfterEach
