@@ -4,7 +4,6 @@ import com.microsoft.playwright.*;
 import com.microsoft.playwright.options.AriaRole;
 import org.junit.jupiter.api.*;
 
-import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 
@@ -29,9 +28,13 @@ public class TrivyReportTest {
     void setup() {
         context = browser.newContext();
         page = context.newPage();
-        // Updated path to your specific file
-        String path = Paths.get("C:\\Users\\dell\\IdeaProjects\\playwright-java-scan2html-report\\TrivyReport.html").toUri().toString();
-        page.navigate(path);
+
+        String targetUrl = System.getenv("TEST_REPORT_URL");
+        if (targetUrl == null || targetUrl.isBlank()) {
+            Assertions.fail("TEST_REPORT_URL env variable must be set and not blank");
+        }
+
+        page.navigate(targetUrl);
     }
 
     @Test
