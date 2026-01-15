@@ -5,6 +5,8 @@ import com.microsoft.playwright.*;
 import com.trivy.pages.TrivyReportPage;
 import org.junit.jupiter.api.*;
 
+import java.nio.file.Paths;
+
 public class BaseTest {
     protected Playwright playwright;
     protected Browser browser;
@@ -20,13 +22,17 @@ public class BaseTest {
 
         context = browser.newContext();
         page = context.newPage();
+        //Start tracing..
+        context.tracing().start(new Tracing.StartOptions().setScreenshots(true).setSnapshots(true));
         page.navigate(ConfigReader.get("TEST_REPORT_URL"));
         report = new TrivyReportPage(page);
     }
 
     @AfterEach
-    void tearDown() {
-        if (browser != null) browser.close();
-        if (playwright != null) playwright.close();
+    void tearDown(TestInfo testInfo) {
+        page.close();
+        // Stop tracing and save it to a file
+        String testName = testInfo.getDisplayName();
+        context.tracing().stop(new Tracing.StopOptions().setPath(Paths.get("trace-" + testName + ".zip")));
     }
 }
