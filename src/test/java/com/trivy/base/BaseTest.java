@@ -1,7 +1,8 @@
-package com.example.base;
+package com.trivy.base;
 
-import com.example.config.ConfigReader;
+import com.trivy.config.ConfigReader;
 import com.microsoft.playwright.*;
+import com.trivy.pages.TrivyReportPage;
 import org.junit.jupiter.api.*;
 
 public class BaseTest {
@@ -9,6 +10,8 @@ public class BaseTest {
     protected Browser browser;
     protected BrowserContext context;
     protected Page page;
+    // Page Object instance accessible to all tests
+    protected TrivyReportPage report;
 
     @BeforeEach
     void setup() {
@@ -18,6 +21,7 @@ public class BaseTest {
         context = browser.newContext();
         page = context.newPage();
         page.navigate(ConfigReader.get("TEST_REPORT_URL"));
+        report = new TrivyReportPage(page);
     }
 
     @AfterEach

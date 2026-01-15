@@ -1,4 +1,4 @@
-package com.example.config;
+package com.trivy.config;
 
 import io.github.cdimascio.dotenv.Dotenv;
 
