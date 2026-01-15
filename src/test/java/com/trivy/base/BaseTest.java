@@ -30,9 +30,11 @@ public class BaseTest {
 
     @AfterEach
     void tearDown(TestInfo testInfo) {
-        page.close();
         // Stop tracing and save it to a file
-        String testName = testInfo.getDisplayName();
+        String testName = testInfo.getDisplayName().replaceAll("[^a-zA-Z0-9.-]", "_");
         context.tracing().stop(new Tracing.StopOptions().setPath(Paths.get("trace-" + testName + ".zip")));
+        context.close();
+        browser.close();
+        playwright.close();
     }
 }

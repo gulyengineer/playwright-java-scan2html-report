@@ -1,5 +1,5 @@
 name: Playwright Tests
-on: [push]
+on: [ push ]
 
 jobs:
   test:
@@ -32,7 +32,10 @@ jobs:
         uses: mikepenz/action-junit-report@v4
         if: always() # always run even if the tests fail
         with:
-            github_token: ${{ secrets.GITHUB_TOKEN }}
-            report_paths: '**/target/surefire-reports/TEST-*.xml'
-            include_passed: true
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          report_paths: '**/target/surefire-reports/TEST-*.xml'
+          include_passed: true
+          summary: true
+          detailed summary: true
+
 
