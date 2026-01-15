@@ -5,6 +5,7 @@ jobs:
   test:
     name: Run Tests
     runs-on: ubuntu-latest
+    timeout-minutes: 10  # Forces the job to kill itself if it hangs too long
     permissions:
       contents: read
       checks: write
@@ -36,6 +37,5 @@ jobs:
           report_paths: '**/target/surefire-reports/TEST-*.xml'
           include_passed: true
           summary: true
-          detailed summary: true
 
 
