@@ -36,6 +36,6 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           report_paths: '**/target/surefire-reports/TEST-*.xml'
           include_passed: true
-          summary: true
+          detailed_summary: true
 
 
