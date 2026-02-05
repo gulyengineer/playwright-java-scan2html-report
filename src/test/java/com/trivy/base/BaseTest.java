@@ -17,12 +17,19 @@ public class BaseTest {
     @BeforeEach
     void setup() {
         playwright = Playwright.create();
-        browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(false));
-
+        boolean headless = ConfigReader.getBoolean("headless", true);
+        browser = playwright.chromium().launch(
+                new BrowserType.LaunchOptions().setHeadless(headless)
+        );
         context = browser.newContext();
         page = context.newPage();
-        context.tracing().start(new Tracing.StartOptions().setScreenshots(true).setSnapshots(true));
-        page.navigate(ConfigReader.get("TEST_REPORT_URL"));
+        context.tracing().start(
+                new Tracing.StartOptions()
+                        .setScreenshots(true)
+                        .setSnapshots(true)
+        );
+        String reportUrl = ConfigReader.getRequired("TEST_REPORT_URL");
+        page.navigate(reportUrl);
         report = new TrivyReportPage(page);
     }
 
