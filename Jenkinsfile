@@ -23,7 +23,20 @@ pipeline {
     
     post {
         always {
-            junit '**/target/surefire-reports/*.xml'
+             junit testResults: '**/target/surefire-reports/*.xml',
+                          allowEmptyResults: true
+            emailext(
+                            subject: "Jenkins Job '${env.JOB_NAME}' #${env.BUILD_NUMBER} finished",
+                            body: """
+            Job: ${env.JOB_NAME}
+            Build: #${env.BUILD_NUMBER}
+            Status: ${currentBuild.currentResult}
+
+            Check console output at:
+            ${env.BUILD_URL}
+            """,
+                            to: '$DEFAULT_RECIPIENTS'
+                        )
         }
     }
 }
