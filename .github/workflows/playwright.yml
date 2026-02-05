@@ -26,7 +26,6 @@ jobs:
       - name: Run Playwright Tests
         run: xvfb-run mvn test -Dheadless=true
         env:
-          # Point this to your live GitHub Pages URL
           TEST_REPORT_URL: https://gulyengineer.github.io/playwright-java-scan2html-report/
 
       - name: Publish Test Report

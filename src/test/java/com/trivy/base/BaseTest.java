@@ -12,7 +12,6 @@ public class BaseTest {
     protected Browser browser;
     protected BrowserContext context;
     protected Page page;
-    // Page Object instance accessible to all tests
     protected TrivyReportPage report;
 
     @BeforeEach
@@ -22,7 +21,6 @@ public class BaseTest {
 
         context = browser.newContext();
         page = context.newPage();
-        //Start tracing..
         context.tracing().start(new Tracing.StartOptions().setScreenshots(true).setSnapshots(true));
         page.navigate(ConfigReader.get("TEST_REPORT_URL"));
         report = new TrivyReportPage(page);
@@ -30,7 +28,6 @@ public class BaseTest {
 
     @AfterEach
     void tearDown(TestInfo testInfo) {
-        // Stop tracing and save it to a file
         String testName = testInfo.getDisplayName().replaceAll("[^a-zA-Z0-9.-]", "_");
         try {
             if (context != null) {

@@ -4,7 +4,7 @@ import io.github.cdimascio.dotenv.Dotenv;
 
 public class ConfigReader {
     private static final Dotenv dotenv = Dotenv.configure()
-            .ignoreIfMissing() // Prevents crashes if file is missing (like in CI)
+            .ignoreIfMissing()
             .load();
 
     public static String get(String key) {
