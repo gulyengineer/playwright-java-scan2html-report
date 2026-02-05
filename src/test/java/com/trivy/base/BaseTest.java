@@ -12,25 +12,29 @@ public class BaseTest {
     protected Browser browser;
     protected BrowserContext context;
     protected Page page;
-    // Page Object instance accessible to all tests
     protected TrivyReportPage report;
 
     @BeforeEach
     void setup() {
         playwright = Playwright.create();
-        browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(false));
-
+        boolean headless = ConfigReader.getBoolean("headless", true);
+        browser = playwright.chromium().launch(
+                new BrowserType.LaunchOptions().setHeadless(headless)
+        );
         context = browser.newContext();
         page = context.newPage();
-        //Start tracing..
-        context.tracing().start(new Tracing.StartOptions().setScreenshots(true).setSnapshots(true));
-        page.navigate(ConfigReader.get("TEST_REPORT_URL"));
+        context.tracing().start(
+                new Tracing.StartOptions()
+                        .setScreenshots(true)
+                        .setSnapshots(true)
+        );
+        String reportUrl = ConfigReader.getRequired("TEST_REPORT_URL");
+        page.navigate(reportUrl);
         report = new TrivyReportPage(page);
     }
 
     @AfterEach
     void tearDown(TestInfo testInfo) {
-        // Stop tracing and save it to a file
         String testName = testInfo.getDisplayName().replaceAll("[^a-zA-Z0-9.-]", "_");
         try {
             if (context != null) {
