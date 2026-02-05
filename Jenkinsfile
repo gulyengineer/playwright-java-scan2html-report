@@ -3,7 +3,7 @@ pipeline {
     
     environment {
         // Defined here, it's available to all stages and your Java code
-        TEST_REPORT_URL = "https://gulyengineer.github.io/playwright-java-scan2html-report/"
+        TEST_REPORT_URL = 'https://gulyengineer.github.io/playwright-java-scan2html-report/'
     }
 
     stages {
